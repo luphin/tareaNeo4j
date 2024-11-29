@@ -1,0 +1,131 @@
+// Crear nodos de Árbol con coordenadas
+CREATE (:Árbol {id: 1, tipo: 'Manzano', nombre_cientifico: 'Malus domestica', latitud: -33.45, longitud: -70.65}),
+       (:Árbol {id: 2, tipo: 'Naranjo', nombre_cientifico: 'Citrus sinensis', latitud: -33.44, longitud: -70.64}),
+       (:Árbol {id: 3, tipo: 'Peral', nombre_cientifico: 'Pyrus communis', latitud: -33.46, longitud: -70.66}),
+       (:Árbol {id: 4, tipo: 'Cerezo', nombre_cientifico: 'Prunus avium', latitud: -33.45, longitud: -70.63}),
+       (:Árbol {id: 5, tipo: 'Duraznero', nombre_cientifico: 'Prunus persica', latitud: -33.47, longitud: -70.67}),
+       (:Árbol {id: 6, tipo: 'Almendro', nombre_cientifico: 'Prunus dulcis', latitud: -33.48, longitud: -70.62}),
+       (:Árbol {id: 7, tipo: 'Olivo', nombre_cientifico: 'Olea europaea', latitud: -33.49, longitud: -70.61}),
+       (:Árbol {id: 8, tipo: 'Palto', nombre_cientifico: 'Persea americana', latitud: -33.42, longitud: -70.68}),
+       (:Árbol {id: 9, tipo: 'Limón', nombre_cientifico: 'Citrus limon', latitud: -33.41, longitud: -70.64}),
+       (:Árbol {id: 10, tipo: 'Mandarino', nombre_cientifico: 'Citrus reticulata', latitud: -33.43, longitud: -70.66}),
+       (:Árbol {id: 11, tipo: 'Nogal', nombre_cientifico: 'Juglans regia', latitud: -33.45, longitud: -70.63}),
+       (:Árbol {id: 12, tipo: 'Mango', nombre_cientifico: 'Mangifera indica', latitud: -33.46, longitud: -70.65}),
+       (:Árbol {id: 13, tipo: 'Granado', nombre_cientifico: 'Punica granatum', latitud: -33.47, longitud: -70.62}),
+       (:Árbol {id: 14, tipo: 'Higuera', nombre_cientifico: 'Ficus carica', latitud: -33.44, longitud: -70.63}),
+       (:Árbol {id: 15, tipo: 'Papayo', nombre_cientifico: 'Carica papaya', latitud: -33.43, longitud: -70.67}),
+       (:Árbol {id: 16, tipo: 'Kiwi', nombre_cientifico: 'Actinidia deliciosa', latitud: -33.42, longitud: -70.68}),
+       (:Árbol {id: 17, tipo: 'Guindo', nombre_cientifico: 'Prunus cerasus', latitud: -33.41, longitud: -70.61}),
+       (:Árbol {id: 18, tipo: 'Níspero', nombre_cientifico: 'Eriobotrya japonica', latitud: -33.48, longitud: -70.62}),
+       (:Árbol {id: 19, tipo: 'Castaño', nombre_cientifico: 'Castanea sativa', latitud: -33.49, longitud: -70.64}),
+       (:Árbol {id: 20, tipo: 'Anacardo', nombre_cientifico: 'Anacardium occidentale', latitud: -33.45, longitud: -70.65}),
+       (:Árbol {id: 21, tipo: 'Ciruelo', nombre_cientifico: 'Prunus domestica', latitud: -33.47, longitud: -70.66}),
+       (:Árbol {id: 22, tipo: 'Manzano silvestre', nombre_cientifico: 'Malus sylvestris', latitud: -33.44, longitud: -70.62}),
+       (:Árbol {id: 23, tipo: 'Pino piñonero', nombre_cientifico: 'Pinus pinea', latitud: -33.43, longitud: -70.61}),
+       (:Árbol {id: 24, tipo: 'Cocotero', nombre_cientifico: 'Cocos nucifera', latitud: -33.42, longitud: -70.67}),
+       (:Árbol {id: 25, tipo: 'Arándano', nombre_cientifico: 'Vaccinium corymbosum', latitud: -33.41, longitud: -70.68});
+
+// Crear nodos de Sector
+CREATE (:Sector {id: 1, nombre: 'Sector Norte', área: 200}),
+       (:Sector {id: 2, nombre: 'Sector Sur', área: 150}),
+       (:Sector {id: 3, nombre: 'Sector Este', área: 180}),
+       (:Sector {id: 4, nombre: 'Sector Oeste', área: 170}),
+       (:Sector {id: 5, nombre: 'Sector Central', área: 220});
+
+// Crear nodos de Encargado
+FOREACH (i IN RANGE(1, 50) |
+    CREATE (:Encargado {id: i, nombre: 'Encargado ' + i, email: 'encargado' + i + '@ejemplo.com'})
+);
+
+// Crear nodos de Plaga
+CREATE (:Plaga {tipo: "ARAÑITA ROJA", grado_dano: "LEVE", poblacion: "LEVE"}),
+       (:Plaga {tipo: "TRIPS", grado_dano: "MEDIO", poblacion: "MEDIO"}),
+       (:Plaga {tipo: "CONCHUELA NEGRA DEL OLIVO", grado_dano: "ALTO", poblacion: "ALTO"}),
+       (:Plaga {tipo: "ESCAMA BLANCA", grado_dano: "LEVE", poblacion: "MEDIO"}),
+       (:Plaga {tipo: "CHANCHITO BLANCO", grado_dano: "MEDIO", poblacion: "ALTO"}),
+       (:Plaga {tipo: "BURRITO DE LA VID", grado_dano: "ALTO", poblacion: "LEVE"});
+
+// Crear nodos de Enfermedad
+CREATE (:Enfermedad {tipo: "VERTICILOSIS", grado: "LEVE"}),
+       (:Enfermedad {tipo: "FUSARIUM", grado: "MEDIO"}),
+       (:Enfermedad {tipo: "HONGO DE LA MADERA", grado: "ALTO"}),
+       (:Enfermedad {tipo: "PHYTOPHTHORA", grado: "MEDIO"});
+
+// Crear nodos de Aspersor para cada Árbol
+MATCH (a:Árbol)
+WITH a, ["OPERATIVO", "TAPADO", "CAIDO", "FALTANTE", "ROTO"] AS estados
+CREATE (a)-[:IRRIGADO_POR]->(:Aspersor {id: a.id, estado: estados[toInteger(rand() * size(estados))]});
+
+// Crear nodos de Reporte
+CREATE (:Reporte {id: 1, fecha: '2024-11-01', frutas_cosechadas: 100, kilos_cosechados: 80, observaciones: 'Todo en buen estado'}),
+       (:Reporte {id: 2, fecha: '2024-11-02', frutas_cosechadas: 150, kilos_cosechados: 120, observaciones: 'Árboles con pocas plagas'}),
+       (:Reporte {id: 3, fecha: '2024-11-03', frutas_cosechadas: 200, kilos_cosechados: 160, observaciones: 'Aspersor roto, impacto mínimo'}),
+       (:Reporte {id: 4, fecha: '2024-11-04', frutas_cosechadas: 180, kilos_cosechados: 140, observaciones: 'Plaga controlada'}),
+       (:Reporte {id: 5, fecha: '2024-11-05', frutas_cosechadas: 220, kilos_cosechados: 170, observaciones: 'Enfermedades leves detectadas'}),
+       (:Reporte {id: 6, fecha: '2024-11-06', frutas_cosechadas: 250, kilos_cosechados: 200, observaciones: 'Sector completamente cosechado'}),
+       (:Reporte {id: 7, fecha: '2024-11-07', frutas_cosechadas: 300, kilos_cosechados: 240, observaciones: 'Buena temporada'}),
+       (:Reporte {id: 8, fecha: '2024-11-08', frutas_cosechadas: 180, kilos_cosechados: 130, observaciones: 'Árboles afectados por plaga'}),
+       (:Reporte {id: 9, fecha: '2024-11-09', frutas_cosechadas: 150, kilos_cosechados: 100, observaciones: 'Sector necesita más riego'}),
+       (:Reporte {id: 10, fecha: '2024-11-10', frutas_cosechadas: 120, kilos_cosechados: 90, observaciones: 'Estado general estable'}),
+       (:Reporte {id: 11, fecha: '2024-11-11', frutas_cosechadas: 190, kilos_cosechados: 160, observaciones: 'Revisión semanal'}),
+       (:Reporte {id: 12, fecha: '2024-11-12', frutas_cosechadas: 220, kilos_cosechados: 180, observaciones: 'Ningún aspersor dañado'}),
+       (:Reporte {id: 13, fecha: '2024-11-13', frutas_cosechadas: 170, kilos_cosechados: 140, observaciones: 'Sector en buenas condiciones'}),
+       (:Reporte {id: 14, fecha: '2024-11-14', frutas_cosechadas: 200, kilos_cosechados: 160, observaciones: 'Sector parcialmente cosechado'}),
+       (:Reporte {id: 15, fecha: '2024-11-15', frutas_cosechadas: 150, kilos_cosechados: 120, observaciones: 'Detectadas plagas menores'}),
+       (:Reporte {id: 16, fecha: '2024-11-16', frutas_cosechadas: 300, kilos_cosechados: 240, observaciones: 'Sector completamente revisado'}),
+       (:Reporte {id: 17, fecha: '2024-11-17', frutas_cosechadas: 210, kilos_cosechados: 170, observaciones: 'Cosecha normal'}),
+       (:Reporte {id: 18, fecha: '2024-11-18', frutas_cosechadas: 180, kilos_cosechados: 150, observaciones: 'Condiciones ideales'}),
+       (:Reporte {id: 19, fecha: '2024-11-19', frutas_cosechadas: 250, kilos_cosechados: 200, observaciones: 'Sector con sobreproducción'}),
+       (:Reporte {id: 20, fecha: '2024-11-20', frutas_cosechadas: 170, kilos_cosechados: 140, observaciones: 'Menor rendimiento en sector oeste'}),
+       (:Reporte {id: 21, fecha: '2024-11-21', frutas_cosechadas: 240, kilos_cosechados: 200, observaciones: 'Árboles en crecimiento óptimo'}),
+       (:Reporte {id: 22, fecha: '2024-11-22', frutas_cosechadas: 160, kilos_cosechados: 120, observaciones: 'Necesario revisar aspersores'}),
+       (:Reporte {id: 23, fecha: '2024-11-23', frutas_cosechadas: 150, kilos_cosechados: 100, observaciones: 'Cosecha interrumpida por lluvias'}),
+       (:Reporte {id: 24, fecha: '2024-11-24', frutas_cosechadas: 300, kilos_cosechados: 250, observaciones: 'Sector sur con excelente rendimiento'}),
+       (:Reporte {id: 25, fecha: '2024-11-25', frutas_cosechadas: 280, kilos_cosechados: 230, observaciones: 'Finalización de temporada'}),
+       (:Reporte {id: 26, fecha: '2024-11-26', frutas_cosechadas: 200, kilos_cosechados: 160, observaciones: 'Árboles con buen rendimiento'}),
+       (:Reporte {id: 27, fecha: '2024-11-27', frutas_cosechadas: 190, kilos_cosechados: 140, observaciones: 'Detectadas plagas menores'}),
+       (:Reporte {id: 28, fecha: '2024-11-28', frutas_cosechadas: 170, kilos_cosechados: 120, observaciones: 'Cosecha en curso'}),
+       (:Reporte {id: 29, fecha: '2024-11-29', frutas_cosechadas: 160, kilos_cosechados: 110, observaciones: 'Sector central requiere revisión'}),
+       (:Reporte {id: 30, fecha: '2024-11-30', frutas_cosechadas: 300, kilos_cosechados: 260, observaciones: 'Finalización excelente'});
+
+
+// Relación Árbol - Sector
+MATCH (a:Árbol), (s:Sector)
+WITH a, s
+WHERE a.id % 5 + 1 = s.id
+CREATE (a)-[:PERTENECE]->(s);
+
+// Relación Encargado - Sector
+MATCH (e:Encargado), (s:Sector)
+WITH e, s
+WHERE e.id % 5 + 1 = s.id
+CREATE (s)-[:ASIGNADO_A]->(e);
+
+// Relación Reporte - Encargado
+MATCH (r:Reporte)
+WITH r, r.id % 50 + 1 AS encargado_id
+MATCH (e:Encargado {id: encargado_id})
+CREATE (e)-[:REALIZA]->(r);
+
+// Relación Reporte - Árbol
+MATCH (r:Reporte)
+WITH r, r.id % 25 + 1 AS arbol_id
+MATCH (a:Árbol {id: arbol_id})
+CREATE (r)-[:MONITOREA]->(a);
+
+// Relacionar al menos un árbol con una plaga
+MATCH (a:Árbol), (p:Plaga)
+WITH a, p
+WHERE a.id % 5 = 0 // Selecciona un subconjunto de árboles
+CREATE (a)-[:AFECTADO_POR]->(p);
+
+// Relacionar al menos un árbol con una enfermedad
+MATCH (a:Árbol), (e:Enfermedad)
+WITH a, e
+WHERE a.id % 7 = 0 // Selecciona un subconjunto diferente de árboles
+CREATE (a)-[:ENFERMO_DE]->(e);
+
+// Relacionar cada árbol con su correspondiente aspersor existente
+MATCH (a:Árbol), (asp:Aspersor)
+WHERE a.id = asp.id
+CREATE (a)-[:IRRIGADO_POR]->(asp);
